@@ -1,0 +1,19 @@
+package com.example.valleypioneer.androidupdate;
+
+
+/**
+ * Created by valleypioneer on 2018/1/5.
+ */
+
+public class Application extends android.app.Application {
+    private static Application instance;
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        instance = this;
+    }
+
+    public static Application getInstance(){
+        return instance;
+    }
+}
