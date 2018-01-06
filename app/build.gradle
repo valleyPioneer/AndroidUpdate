@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply from: 'tinkerpatch.gradle'
 
 android {
     compileSdkVersion 26
@@ -10,10 +11,27 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
+    /** 需要配置自己的签名 */
+    signingConfigs {
+        release {
+            try {
+                keyAlias 'key0'
+                keyPassword 'jxfzqyxxz'
+                storeFile file('/Users/valleypioneer/keyStore.jks')
+                storePassword 'jxfzqyxxz'
+            }
+            catch (Exception e) {
+                throw new Exception("You should define KEYSTORE_PASSWORD and KEY_PASSWORD in gradle.properties")
+            }
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            /** 在此处使用release签名 */
+            signingConfig signingConfigs.release
         }
     }
 }
@@ -26,6 +44,10 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.google.code.gson:gson:2.8.2'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    // 若使用annotation需要单独引用,对于tinker的其他库都无需再引用
+    provided("com.tencent.tinker:tinker-android-anno:1.9.2")
+    annotationProcessor 'com.tencent.tinker:tinker-android-anno:1.9.2'
+    compile("com.tinkerpatch.sdk:tinkerpatch-android-sdk:1.2.2")
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'

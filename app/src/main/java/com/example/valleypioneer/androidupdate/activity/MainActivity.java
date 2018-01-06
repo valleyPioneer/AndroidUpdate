@@ -52,6 +52,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         super.initViews();
         version.setText(Constants.VERSION);
         update.setOnClickListener(this);
+        Toast.makeText(this,"热更新测试成功！",Toast.LENGTH_SHORT).show();
     }
 
     @Override
